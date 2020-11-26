@@ -1,13 +1,12 @@
 from xlsxwriter import *
-import uuid
 from lib import diagram
 
 
 class Excel:
-    def __init__(self):
+    def __init__(self, path):
         self.columns = None
         self.data = None
-        self.workbook = Workbook('xls/{}.xlsx'.format(uuid.uuid4()))
+        self.workbook = Workbook(path)
         self.worksheet = self.workbook.add_worksheet()
         self.style1 = self.workbook.add_format()
         self.style2 = self.workbook.add_format()
@@ -22,6 +21,8 @@ class Excel:
         self.style2.set_bold()
         self.style2.set_border()
 
+        return 1
+
     def create(self, data: dict):
         self.columns = list(data[next(iter(data))].keys())
         self.data = data
@@ -29,6 +30,8 @@ class Excel:
         self.make_body()
         self.add_diagram(last_column, 'name', 'marks_average')
         self.workbook.close()
+
+        return 1
 
     def make_header(self) -> int:
         column = 0
@@ -48,6 +51,8 @@ class Excel:
                 column += 1
             row += 1
 
+        return 1
+
     def add_diagram(self, position: int, column: str, value: str):
         columns = []
         values = []
@@ -58,3 +63,5 @@ class Excel:
         bar_diagram = diagram.Diagram()
         img = bar_diagram.create(columns, values, column, value)
         self.worksheet.insert_image(0, position, img)
+
+        return 1

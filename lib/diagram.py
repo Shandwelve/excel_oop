@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import uuid
-import operator
 
 
 class Diagram:
